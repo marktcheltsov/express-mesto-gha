@@ -39,6 +39,10 @@ const getUser = async (req, res) => {
     }
     return res.status(200).json(user);
   } catch (e) {
+    if ((e.name === 'CastError') || (e.name === 'TypeError')) {
+      console.error(e)
+      return res.status(400).json({message: 'Переданы некорректные данные'})
+    }
     console.error(e)
     return res.status(500).json({message: 'произошла ошибка'})
   }
@@ -78,6 +82,10 @@ const deleteCard = async (req, res) => {
     }
     return res.status(200).json(card);
   } catch (e) {
+    if ((e.name === 'CastError') || (e.name === 'TypeError')) {
+      console.error(e)
+      return res.status(400).json({message: 'Переданы некорректные данные'})
+    }
     console.error(e);
     return res.status(500).json({message: 'произошла ошибка'});
   }
@@ -134,6 +142,10 @@ const deleteCardLike = async (req, res) => {
     }
     return res.status(200).json(card)
   } catch (e) {
+    if ((e.name === 'CastError') || (e.name === 'TypeError')) {
+      console.error(e)
+      return res.status(400).json({message: 'Переданы некорректные данные'})
+    }
     if (e.name === 'ValidationError') {
       console.log(e)
       return res.status(400).json({message: 'Переданы некорректные данные при создании'})
@@ -156,6 +168,10 @@ const addCardLike = async (req, res) => {
     }
     return res.status(200).json(card)
   } catch (e) {
+    if ((e.name === 'CastError') || (e.name === 'TypeError')) {
+      console.error(e)
+      return res.status(400).json({message: 'Переданы некорректные данные'})
+    }
     if (e.name === 'ValidationError') {
       console.log(e)
       return res.status(400).json({message: 'Переданы некорректные данные при создании'})
@@ -164,7 +180,6 @@ const addCardLike = async (req, res) => {
     return res.status(500).json({message: 'произошла ошибка'});
   }
 }
-
 
 module.exports = {
   getUsers,
