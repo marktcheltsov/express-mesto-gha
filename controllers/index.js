@@ -5,6 +5,8 @@ const myUser = {
   id:'638a57a4667614b0eb00ff89'
 }
 
+req.body.owner = myUser.id
+
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
@@ -35,7 +37,7 @@ const getUser = async (req, res) => {
     const {id} = req.params;
     const user = await User.findById(id)
     if (!user) {
-      return res.status(400).json({message: 'Запрашиваемый пользователь не найден'})
+      return res.status(404).json({message: 'Запрашиваемый пользователь не найден'})
     }
     return res.status(200).json(user);
   } catch (e) {
@@ -55,7 +57,6 @@ const getCards = async (req, res) => {
 };
 
 const creatCard = async (req, res) => {
-  req.body.owner = myUser.id
   try {
     req.owner = myUser.id
     const card = await Card.create(req.body);
@@ -86,8 +87,9 @@ const deleteCard = async (req, res) => {
 
 const updateUserAvatar = async (req, res) => {
   const { avatar } = req.body;
+
   try {
-    const user = await User.findByIdAndUpdate(myUser.id, {avatar: avatar});
+    const user = await User.findByIdAndUpdate(req.body.owner, {avatar: avatar});
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
@@ -105,7 +107,7 @@ const updateUserAvatar = async (req, res) => {
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
   try {
-    const user = await User.findByIdAndUpdate(myUser.id, {name: name, about: about})
+    const user = await User.findByIdAndUpdate(req.body.owner, {name: name, about: about})
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
