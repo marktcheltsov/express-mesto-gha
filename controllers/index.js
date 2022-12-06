@@ -1,11 +1,6 @@
 const User = require('../models/users')
 const Card = require('../models/card')
 
-const myUser = {
-  id:'638a57a4667614b0eb00ff89'
-}
-
-
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
@@ -61,7 +56,6 @@ const getCards = async (req, res) => {
 
 const creatCard = async (req, res) => {
   try {
-    req.owner = myUser.id
     const card = await Card.create(req.body);
     return res.status(201).json(card);
   } catch (e) {
@@ -95,7 +89,9 @@ const deleteCard = async (req, res) => {
 const updateUserAvatar = async (req, res) => {
   const { avatar } = req.body;
   try {
-    const user = await User.findByIdAndUpdate('638a57a4667614b0eb00ff89', {avatar: avatar});
+    const user = await User.findByIdAndUpdate(req.owner._id,
+      { avatar },
+      { new: true, runValidators: true });
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
@@ -113,7 +109,11 @@ const updateUserAvatar = async (req, res) => {
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
   try {
-    const user = await User.findByIdAndUpdate('638a57a4667614b0eb00ff89', {name: name, about: about})
+    const user = await User.findByIdAndUpdate(
+      req.owner._id,
+      { name, about },
+      { new: true, runValidators: true }
+    )
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
@@ -133,7 +133,7 @@ const deleteCardLike = async (req, res) => {
   try {
     const card = await Card.findByIdAndUpdate(
       cardId,
-      { $pull: { likes: myUser.id } },
+      { $pull: { likes: req.owner._id } },
       { new: true },
     )
     if (!card) {
@@ -159,7 +159,7 @@ const addCardLike = async (req, res) => {
   try {
     const card = await Card.findByIdAndUpdate(
       cardId,
-      { $addToSet: { likes: myUser.id } },
+      { $addToSet: { likes: req.owner._id } },
       { new: true },
     )
     if (!card) {
