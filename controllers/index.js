@@ -1,6 +1,6 @@
 const User = require('../models/users')
 const Card = require('../models/card')
- 
+
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
@@ -55,6 +55,7 @@ const getCards = async (req, res) => {
 };
 
 const creatCard = async (req, res) => {
+  req.body.owner = req.owner
   try {
     const card = await Card.create(req.body);
     return res.status(201).json(card);
@@ -179,6 +180,7 @@ const addCardLike = async (req, res) => {
     return res.status(500).json({message: 'произошла ошибка'});
   }
 }
+
 
 module.exports = {
   getUsers,
