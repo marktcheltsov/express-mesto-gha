@@ -5,8 +5,6 @@ const myUser = {
   id:'638a57a4667614b0eb00ff89'
 }
 
-req.body.owner = myUser.id
-
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
@@ -87,7 +85,7 @@ const deleteCard = async (req, res) => {
 
 const updateUserAvatar = async (req, res) => {
   const { avatar } = req.body;
-
+  req.body.owner = myUser.id
   try {
     const user = await User.findByIdAndUpdate(req.body.owner, {avatar: avatar});
     if (!user) {
@@ -106,6 +104,7 @@ const updateUserAvatar = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
+  req.body.owner = myUser.id
   try {
     const user = await User.findByIdAndUpdate(req.body.owner, {name: name, about: about})
     if (!user) {
