@@ -5,6 +5,7 @@ const myUser = {
   id:'638a57a4667614b0eb00ff89'
 }
 
+
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
@@ -93,9 +94,8 @@ const deleteCard = async (req, res) => {
 
 const updateUserAvatar = async (req, res) => {
   const { avatar } = req.body;
-  req.body.owner = myUser.id
   try {
-    const user = await User.findByIdAndUpdate(req.body.owner, {avatar: avatar});
+    const user = await User.findByIdAndUpdate('638a57a4667614b0eb00ff89', {avatar: avatar});
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
@@ -112,9 +112,8 @@ const updateUserAvatar = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
-  req.body.owner = myUser.id
   try {
-    const user = await User.findByIdAndUpdate(req.body.owner, {name: name, about: about})
+    const user = await User.findByIdAndUpdate('638a57a4667614b0eb00ff89', {name: name, about: about})
     if (!user) {
       return res.status(404).json({message: 'Запрашиваемый пользователь не найден'});
     }
@@ -180,6 +179,7 @@ const addCardLike = async (req, res) => {
     return res.status(500).json({message: 'произошла ошибка'});
   }
 }
+
 
 module.exports = {
   getUsers,
