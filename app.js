@@ -12,12 +12,11 @@ const cardRouter  = require('./routes/cardRouter.js');
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
-  req.user = {
-    _id: '638a289978dd77e2120a046d'
+  req.owner = {
+    _id: '638a57a4667614b0eb00ff89',
   };
   next();
 });
-
 app.use('/users', userRouter);
 
 app.use('/cards', cardRouter)
