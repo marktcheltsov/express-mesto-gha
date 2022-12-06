@@ -1,6 +1,6 @@
 const User = require('../models/users')
 const Card = require('../models/card')
-
+ 
 const getUsers = async (req, res) => {
   console.log(req.params)
   try {
