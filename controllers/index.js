@@ -180,7 +180,6 @@ const addCardLike = async (req, res) => {
   }
 }
 
-
 module.exports = {
   getUsers,
   creatUser,
