@@ -22,8 +22,8 @@ app.use('/users', userRouter);
 
 app.use('/cards', cardRouter)
 
-app.get('*', (req, res)=> {
-  return res.status(500).json({message: 'указан неправильный путь'})
+app.use('*', (req, res)=> {
+  return res.status(404).json({message: 'указан неправильный путь'})
 })
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
