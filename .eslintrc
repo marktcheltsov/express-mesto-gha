@@ -1,0 +1,7 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+    "js"
+  ],
+  "allow": ["foo_", "_bar"]
+}
